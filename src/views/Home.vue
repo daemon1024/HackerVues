@@ -1,18 +1,27 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <Item v-for="story in stories" :key="story.id" :story="story" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import Item from "@/components/Item.vue";
 
 export default {
   name: "Home",
   components: {
-    HelloWorld
+    Item
+  },
+  data() {
+    return {
+      stories: this.$store.state.topStories
+    };
+  },
+  created: function() {
+    if (this.$store.state.topStories.length === 0)
+      this.$store.dispatch("fetch_top_stories");
+    console.log(this.stories);
   }
 };
 </script>
